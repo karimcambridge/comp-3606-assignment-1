@@ -10,6 +10,33 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".CartActivity"
+            android:label="@string/title_activity_cart"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.comp3606_assignment_1.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ItemDetailsActivity"
+            android:label="@string/title_activity_item_details"
+            android:parentActivityName=".ItemsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.comp3606_assignment_1.ItemsActivity" />
+        </activity>
+        <activity
+            android:name=".ItemsActivity"
+            android:label="@string/title_activity_items"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.comp3606_assignment_1.MainActivity" />
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
