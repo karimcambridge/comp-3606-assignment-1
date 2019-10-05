@@ -52,4 +52,12 @@ public class MainActivity extends AppCompatActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
+
+	public void viewStore(View storeView) {
+
+	}
+
+	public void viewCart(View cartView) {
+
+	}
 }
