@@ -8,4 +8,10 @@
     tools:context=".ItemsActivity"
     tools:showIn="@layout/activity_items">
 
+    <ListView
+        android:id="@+id/items_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:entries="@array/items_available"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

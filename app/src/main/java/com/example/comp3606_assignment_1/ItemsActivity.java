@@ -1,14 +1,14 @@
 package com.example.comp3606_assignment_1;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 public class ItemsActivity extends AppCompatActivity {
 
@@ -19,15 +19,18 @@ public class ItemsActivity extends AppCompatActivity {
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
-		FloatingActionButton fab = findViewById(R.id.fab);
-		fab.setOnClickListener(new View.OnClickListener() {
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		ListView lv = (ListView) findViewById(R.id.items_list);
+		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onClick(View view) {
-				Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-						.setAction("Action", null).show();
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent i = new Intent(ItemsActivity.this, ItemDetailsActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putInt("itemid", position);
+				i.putExtras(bundle);
+				startActivity(i);
 			}
 		});
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
-
 }

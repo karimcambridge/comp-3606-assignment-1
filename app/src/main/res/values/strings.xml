@@ -4,4 +4,28 @@
     <string name="title_activity_items">ItemsActivity</string>
     <string name="title_activity_item_details">ItemDetailsActivity</string>
     <string name="title_activity_cart">CartActivity</string>
+
+    <string-array name="items_available">
+        <item>Formal Shirt</item>
+        <item>Shorts</item>
+        <item>Laptop</item>
+        <item>Printer</item>
+        <item>Calculator</item>
+    </string-array>
+
+    <string-array name="items_description">
+        <item>An ugly shirt that caucasians wear in an attempt to impress the female gender.</item>
+        <item>An ugly shorts.</item>
+        <item>A device used to surf the internet and do various tasks.</item>
+        <item>A device used to print material.</item>
+        <item>A calculator. Nothing much to describe.</item>
+    </string-array>
+
+    <string-array name="item_images">
+        <item>@drawable/formal_shirt</item>
+        <item>@drawable/shorts</item>
+        <item>@drawable/laptop</item>
+        <item>@drawable/printer</item>
+        <item>@drawable/calculator</item>
+    </string-array>
 </resources>
