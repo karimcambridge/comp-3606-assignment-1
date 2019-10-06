@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	public void viewCart(View cartView) {
-
+		Intent i = new Intent(MainActivity.this, CartActivity.class);
+		startActivity(i);
 	}
 }

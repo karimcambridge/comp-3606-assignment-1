@@ -26,47 +26,4 @@
 
     <include layout="@layout/content_items" />
 
-    <?ignore
-        <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/shirt_img"
-        android:src="@drawable/formal_shirt"/>
-        <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/shorts_img"
-        android:src="@drawable/shorts"/>
-        <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/laptop_img"
-        android:src="@drawable/laptop"/>
-        <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/printer_img"
-        android:src="@drawable/printer"/>
-        <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/calculator"
-        android:src="@drawable/calculator"/>
-        ?>
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/main_img"
-        android:src="@drawable/formal_shirt"/>
-    <ListView
-        android:id="@+id/activity_items"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
 </LinearLayout>

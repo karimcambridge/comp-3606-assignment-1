@@ -54,7 +54,18 @@ public class ItemDetailsActivity extends AppCompatActivity {
 		editor.putInt("itemCart", this.item);
 
 		if(editor.commit()) {
-			Snackbar.make(view, "Item successfully added to the cart", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+			Snackbar.make(view, "Item successfully added to the cart", Snackbar.LENGTH_LONG)
+					.setAction("UNDO", new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							SharedPreferences sp = getApplicationContext().getSharedPreferences("cartData", MODE_PRIVATE);
+							SharedPreferences.Editor editor = sp.edit();
+							editor.remove("itemCart");
+							if(editor.commit()) {
+								Snackbar.make(v, "Removed item from Cart", Snackbar.LENGTH_LONG).show();
+							}
+						}
+					}).show();
 		}
 	}
 }
