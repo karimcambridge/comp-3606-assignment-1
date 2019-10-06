@@ -13,11 +13,18 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CheckoutActivity extends AppCompatActivity {
 	String [] fields = {
@@ -31,6 +38,10 @@ public class CheckoutActivity extends AppCompatActivity {
 
 	ArrayList<String> itemList = new ArrayList();
 
+	TextView txtFinalDisplay;
+	EditText txtZipCode, txtCouponCode;
+	CheckBox btnVat;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,6 +50,11 @@ public class CheckoutActivity extends AppCompatActivity {
 		setSupportActionBar(toolbar);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		txtFinalDisplay = (TextView)findViewById(R.id.txt_checkout_display);
+		txtZipCode = (EditText)findViewById(R.id.txt_zipcode);
+		txtCouponCode = (EditText)findViewById(R.id.txt_couponcode);
+		btnVat = (CheckBox)findViewById(R.id.btn_vat);
 
 		db = helper.getReadableDatabase();
 
@@ -58,4 +74,53 @@ public class CheckoutActivity extends AppCompatActivity {
 		lv.setAdapter(adapter);
 	}
 
+	public void onFinalCheckout(View v) {
+		String zipCodeStr = "", couponCode = "";
+		int zipCode = -1;
+		boolean vat = false;
+		List validCouponList = Arrays.asList("SPECIALDISC05", "SPECIALDISC10");
+
+		double finalPrice = 0.0, totalItemPrice = 0.0, shippingCharge = 1.0;
+
+		if(txtZipCode != null) {
+			zipCodeStr = txtZipCode.getText().toString();
+			if(zipCodeStr.matches("-?\\d+")) {
+				zipCode = Integer.parseInt(zipCodeStr);
+				if(zipCode >= 33100 && zipCode <= 34000) {
+					shippingCharge = 4.95;
+				}
+				else if(zipCode >= 34001 && zipCode <= 35000) {
+					shippingCharge = 5.95;
+				}
+			}
+		}
+		if(txtCouponCode != null) {
+			couponCode = txtCouponCode.getText().toString();
+			if(validCouponList.contains(couponCode)) {
+				if(couponCode == "SPECIALDISC05") {
+					totalItemPrice *= 0.95;
+				}
+				else if(couponCode == "SPECIALDISC10") {
+					totalItemPrice *= 0.90;
+				}
+			}
+			else if(!couponCode.isEmpty()){
+				Toast.makeText(getApplicationContext(),"INVALID COUPON CODE", Toast.LENGTH_SHORT).show();
+			}
+		}
+		if(btnVat != null) {
+			vat = btnVat.isChecked();
+		}
+
+		finalPrice = shippingCharge;
+		if(vat) {
+			finalPrice *= 1.10;
+		}
+		txtFinalDisplay.setText(
+				"zipCode: " + zipCode +
+						"\tcouponCode: " + couponCode +
+						"\tvat: " + vat +
+						"\tFinal Price: $" + finalPrice
+		);
+	}
 }

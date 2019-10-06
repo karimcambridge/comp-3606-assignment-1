@@ -5,21 +5,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".CheckoutActivity"
     tools:showIn="@layout/activity_checkout">
 
     <ListView
         android:id="@+id/checkout_list"
-        android:layout_width="286dp"
-        android:layout_height="match_parent">
-    </ListView>
+        android:layout_width="match_parent"
+        android:layout_height="205dp"
+        android:layout_gravity="center|center_horizontal|center_vertical"
+        android:layout_weight="1"></ListView>
+
+    <EditText
+        android:id="@+id/txt_zipcode"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center|center_horizontal|center_vertical"
+        android:layout_weight="0.5"
+        android:ems="10"
+        android:inputType="number"
+        android:text=""
+        android:hint="ZIP CODE"/>
+
+    <EditText
+        android:id="@+id/txt_couponcode"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center|center_horizontal|center_vertical"
+        android:layout_weight="0.5"
+        android:ems="10"
+        android:inputType="textShortMessage"
+        android:text=""
+        android:hint="COUPON CODE" />
+
+    <CheckBox
+        android:id="@+id/btn_vat"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center|center_horizontal|center_vertical"
+        android:layout_weight="0.4"
+        android:text="VAT (10%)" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_final_checkout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
+        android:layout_gravity="center|center_horizontal|center_vertical"
         android:layout_weight="1"
+        android:onClick="onFinalCheckout"
         android:text="PLACE YOUR ORDER" />
 
+    <TextView
+        android:id="@+id/txt_checkout_display"
+        android:layout_width="276dp"
+        android:layout_height="58dp"
+        android:layout_gravity="center|center_horizontal|center_vertical"
+        android:layout_weight="0.2" />
 </LinearLayout>
