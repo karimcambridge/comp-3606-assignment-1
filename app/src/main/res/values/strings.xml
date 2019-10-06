@@ -10,7 +10,6 @@
         <item>Shorts</item>
         <item>Laptop</item>
         <item>Printer</item>
-        <item>Calculator</item>
     </string-array>
 
     <string-array name="items_description">
@@ -18,7 +17,6 @@
         <item>An ugly shorts.</item>
         <item>A device used to surf the internet and do various tasks.</item>
         <item>A device used to print material.</item>
-        <item>A calculator. Nothing much to describe.</item>
     </string-array>
 
     <string-array name="item_images">
@@ -26,6 +24,12 @@
         <item>@drawable/shorts</item>
         <item>@drawable/laptop</item>
         <item>@drawable/printer</item>
-        <item>@drawable/calculator</item>
+    </string-array>
+
+    <string-array name="item_prices">
+        <item>50</item>
+        <item>100</item>
+        <item>150</item>
+        <item>200</item>
     </string-array>
 </resources>
