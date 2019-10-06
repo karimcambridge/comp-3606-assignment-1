@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".CheckoutActivity"
+            android:label="@string/title_activity_checkout"
+            android:parentActivityName=".CartActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.comp3606_assignment_1.CartActivity" />
+        </activity>
+        <activity
             android:name=".CartActivity"
             android:label="@string/title_activity_cart"
             android:parentActivityName=".MainActivity"
@@ -25,7 +34,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.comp3606_assignment_1.MainActivity" />
+                android:value="com.example.comp3606_assignment_1.ItemsActivity" />
         </activity>
         <activity
             android:name=".ItemsActivity"

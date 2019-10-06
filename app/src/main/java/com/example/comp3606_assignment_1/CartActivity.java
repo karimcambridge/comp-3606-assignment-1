@@ -1,11 +1,13 @@
 package com.example.comp3606_assignment_1;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -13,10 +15,21 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.example.comp3606_assignment_1.models.CartModel;
 import com.example.comp3606_assignment_1.models.DBHelper;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
 public class CartActivity extends AppCompatActivity {
+	String [] fields = {
+			CartModel.CartEntry.ITEM,
+			CartModel.CartEntry.TIME
+	};
+	String sortedOrder = CartModel.CartEntry.TIME + " DESC";
+
+	SQLiteOpenHelper helper = new DBHelper(this);
+	SQLiteDatabase db;
+
+	ArrayList<String> itemList = new ArrayList();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,17 +62,10 @@ public class CartActivity extends AppCompatActivity {
 
 		cartList.setAdapter(adapter); // adapter.add();*/
 
-		String [] fields = {
-				CartModel.CartEntry.ITEM,
-				CartModel.CartEntry.TIME
-		};
-		String sortedOrder = CartModel.CartEntry.TIME + " DESC";
-
-		SQLiteOpenHelper helper = new DBHelper(this);
-		final SQLiteDatabase db = helper.getReadableDatabase();
+		db = helper.getReadableDatabase();
 
 		Cursor res = db.query(CartModel.CartEntry.TABLE_NAME, fields, null, null, null, null, sortedOrder);
-		ArrayList<String> itemList = new ArrayList();
+
 		String[] items = getResources().getStringArray((R.array.items_available));
 
 		while (res.moveToNext()) {
@@ -72,5 +78,14 @@ public class CartActivity extends AppCompatActivity {
 		ListView lv = (ListView)findViewById(R.id.cart_list);
 		ArrayAdapter<String>adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemList);
 		lv.setAdapter(adapter);
+	}
+
+	public void onCheckoutAttempt(View view) {
+		if(itemList.size() == 0) {
+			Snackbar.make(view, "Your cart is empty.", Snackbar.LENGTH_LONG).show();
+		} else {
+			Intent i = new Intent(CartActivity.this, CheckoutActivity.class);
+			startActivity(i);
+		}
 	}
 }

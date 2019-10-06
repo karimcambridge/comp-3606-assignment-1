@@ -6,21 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".CartActivity"
-    tools:showIn="@layout/activity_cart">
+    tools:context=".CheckoutActivity"
+    tools:showIn="@layout/activity_checkout">
 
     <ListView
-        android:id="@+id/cart_list"
+        android:id="@+id/checkout_list"
         android:layout_width="286dp"
         android:layout_height="match_parent">
     </ListView>
 
     <Button
-        android:id="@+id/checkoutButton"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:onClick="onCheckoutAttempt"
-        android:text="CHECKOUT" />
+        android:layout_weight="1"
+        android:text="PLACE YOUR ORDER" />
 
 </LinearLayout>

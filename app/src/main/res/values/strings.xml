@@ -4,6 +4,7 @@
     <string name="title_activity_items">ItemsActivity</string>
     <string name="title_activity_item_details">ItemDetailsActivity</string>
     <string name="title_activity_cart">CartActivity</string>
+    <string name="title_activity_checkout">CheckoutActivity</string>
 
     <string-array name="items_available">
         <item>Formal Shirt</item>

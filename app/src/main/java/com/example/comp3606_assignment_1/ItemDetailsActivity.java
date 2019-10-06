@@ -50,9 +50,9 @@ public class ItemDetailsActivity extends AppCompatActivity {
 			imgView.setImageResource(itemImages.getResourceId(itemid, defaultVal));
 		}*/
 	}
-	/*
+
 	public void addToCart(View view) {
-		int item = this.item;
+		/*int item = this.item;
 
 		SQLiteOpenHelper helper = new DBHelper(this);
 		final SQLiteDatabase db = helper.getWritableDatabase();
@@ -78,6 +78,6 @@ public class ItemDetailsActivity extends AppCompatActivity {
 					}).show();
 		} else {
 			Snackbar.make(view, "Unable to add Item to Cart", Snackbar.LENGTH_LONG).show();
-		}
-	}*/
+		}*/
+	}
 }
