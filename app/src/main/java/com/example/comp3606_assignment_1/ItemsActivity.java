@@ -119,7 +119,8 @@ public class ItemsActivity extends AppCompatActivity {
 					final long cartId = db.insert(CartModel.CartEntry.TABLE_NAME, null, cv);
 
 					if(cartId != -1) {
-						Snackbar.make(view, "Item successfully added to the cart", Snackbar.LENGTH_LONG)
+						if(cartId <= 5) {
+							Snackbar.make(view, "Item successfully added to the cart", Snackbar.LENGTH_LONG)
 								.setAction("UNDO", new View.OnClickListener() {
 									@Override
 									public void onClick(View v) {
@@ -132,6 +133,9 @@ public class ItemsActivity extends AppCompatActivity {
 										}
 									}
 								}).show();
+						} else {
+							Snackbar.make(view, "Your cart is full!", Snackbar.LENGTH_LONG).show();
+						}
 					} else {
 						Snackbar.make(view, "Unable to add Item to Cart", Snackbar.LENGTH_LONG).show();
 					}
