@@ -97,7 +97,7 @@ public class CartActivity extends AppCompatActivity {
 	}
 
 	public void onCheckoutAttempt(View view) {
-		if(itemList.size() == 0) {
+		if(itemList.size() == 1 && itemList.get(0).equals("Cart is empty.")) {
 			Snackbar.make(view, "Your cart is empty.", Snackbar.LENGTH_LONG).show();
 		} else {
 			Intent i = new Intent(CartActivity.this, CheckoutActivity.class);
