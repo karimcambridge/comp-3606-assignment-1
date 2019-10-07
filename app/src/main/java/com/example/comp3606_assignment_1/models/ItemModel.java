@@ -27,9 +27,9 @@ public final class ItemModel {
 		String str = "";
 		str += "INSERT INTO " + ItemEntry.TABLE_NAME + "(name, price, image) VALUES ";
 		str += " ('Formal Shirt', 50, " + R.drawable.formal_shirt + "),";
-		str += " ('Shorts Shirt', 100, " + R.drawable.shorts + "),";
-		str += " ('Laptop Shirt', 150, " + R.drawable.laptop + "),";
-		str += " ('Printer Shirt', 200, " + R.drawable.printer + ");";
+		str += " ('Shorts', 100, " + R.drawable.shorts + "),";
+		str += " ('Laptop', 150, " + R.drawable.laptop + "),";
+		str += " ('Printer', 200, " + R.drawable.printer + ");";
 		return str;
 	}
 }

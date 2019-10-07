@@ -13,18 +13,27 @@ import android.widget.ListView;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.TextView;
+
 import com.example.comp3606_assignment_1.models.CartModel;
 import com.example.comp3606_assignment_1.models.DBHelper;
+import com.example.comp3606_assignment_1.models.ItemModel;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
 public class CartActivity extends AppCompatActivity {
-	String [] fields = {
+	String [] cartFields = {
 			CartModel.CartEntry.ITEM,
 			CartModel.CartEntry.TIME
 	};
 	String sortedOrder = CartModel.CartEntry.TIME + " DESC";
+
+	String [] itemFields = {
+			ItemModel.ItemEntry.ID,
+			ItemModel.ItemEntry.PRICE,
+			ItemModel.ItemEntry.IMAGE
+	};
 
 	SQLiteOpenHelper helper = new DBHelper(this);
 	SQLiteDatabase db;
@@ -64,17 +73,24 @@ public class CartActivity extends AppCompatActivity {
 
 		db = helper.getReadableDatabase();
 
-		Cursor res = db.query(CartModel.CartEntry.TABLE_NAME, fields, null, null, null, null, sortedOrder);
+		double totalItemPrice = 0.0;
 
-		String[] items = getResources().getStringArray((R.array.items_available));
+		Cursor itemCartRes = db.rawQuery(
+			"SELECT items.ID, items.NAME, items.PRICE FROM " + ItemModel.ItemEntry.TABLE_NAME + ", " + CartModel.CartEntry.TABLE_NAME + " WHERE cart.id = items.id", null);
 
-		while (res.moveToNext()) {
-			int itemId = res.getInt(res.getColumnIndex(CartModel.CartEntry.ITEM)) - 1;
-			itemList.add(items[itemId]);
+		while (itemCartRes.moveToNext()) {
+			int itemId = itemCartRes.getInt(itemCartRes.getColumnIndex(ItemModel.ItemEntry.ID)) - 1;
+			String name = itemCartRes.getString(itemCartRes.getColumnIndex(ItemModel.ItemEntry.NAME));
+			double price = itemCartRes.getDouble(itemCartRes.getColumnIndex(ItemModel.ItemEntry.PRICE));
+			totalItemPrice += price;
+			itemList.add(name + " ($" + price + ")");
 		}
 		if(itemList.size() == 0) {
 			itemList.add("Cart is empty.");
 		}
+		TextView txtTotalPrice = (TextView)findViewById(R.id.txt_cartTotalPrice);
+		txtTotalPrice.setText("\tTotal Price: $" + totalItemPrice);
+
 		ListView lv = (ListView)findViewById(R.id.cart_list);
 		ArrayAdapter<String>adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemList);
 		lv.setAdapter(adapter);

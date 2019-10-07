@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.example.comp3606_assignment_1.models.CartModel;
 import com.example.comp3606_assignment_1.models.DBHelper;
+import com.example.comp3606_assignment_1.models.ItemModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -58,17 +59,24 @@ public class CheckoutActivity extends AppCompatActivity {
 
 		db = helper.getReadableDatabase();
 
-		Cursor res = db.query(CartModel.CartEntry.TABLE_NAME, fields, null, null, null, null, sortedOrder);
+		double totalItemPrice = 0.0;
 
-		String[] items = getResources().getStringArray((R.array.items_available));
+		Cursor itemCartRes = db.rawQuery(
+				"SELECT items.ID, items.NAME, items.PRICE FROM " + ItemModel.ItemEntry.TABLE_NAME + ", " + CartModel.CartEntry.TABLE_NAME + " WHERE cart.id = items.id", null);
 
-		while (res.moveToNext()) {
-			int itemId = res.getInt(res.getColumnIndex(CartModel.CartEntry.ITEM)) - 1;
-			itemList.add(items[itemId]);
+		while (itemCartRes.moveToNext()) {
+			int itemId = itemCartRes.getInt(itemCartRes.getColumnIndex(ItemModel.ItemEntry.ID)) - 1;
+			String name = itemCartRes.getString(itemCartRes.getColumnIndex(ItemModel.ItemEntry.NAME));
+			double price = itemCartRes.getDouble(itemCartRes.getColumnIndex(ItemModel.ItemEntry.PRICE));
+			totalItemPrice += price;
+			itemList.add(name + " ($" + price + ")");
 		}
 		if(itemList.size() == 0) {
 			itemList.add("Cart is empty.");
 		}
+		TextView txtTotalPrice = (TextView)findViewById(R.id.txt_totalPrice);
+		txtTotalPrice.setText("\tTotal Price: $" + totalItemPrice);
+
 		ListView lv = (ListView)findViewById(R.id.checkout_list);
 		ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemList);
 		lv.setAdapter(adapter);
@@ -81,6 +89,16 @@ public class CheckoutActivity extends AppCompatActivity {
 		List validCouponList = Arrays.asList("SPECIALDISC05", "SPECIALDISC10");
 
 		double finalPrice = 0.0, totalItemPrice = 0.0, shippingCharge = 1.0;
+
+		Cursor itemCartRes = db.rawQuery(
+				"SELECT items.ID, items.NAME, items.PRICE FROM " + ItemModel.ItemEntry.TABLE_NAME + ", " + CartModel.CartEntry.TABLE_NAME + " WHERE cart.id = items.id", null);
+
+		while (itemCartRes.moveToNext()) {
+			int itemId = itemCartRes.getInt(itemCartRes.getColumnIndex(ItemModel.ItemEntry.ID)) - 1;
+			String name = itemCartRes.getString(itemCartRes.getColumnIndex(ItemModel.ItemEntry.NAME));
+			double price = itemCartRes.getDouble(itemCartRes.getColumnIndex(ItemModel.ItemEntry.PRICE));
+			totalItemPrice += price;
+		}
 
 		if(txtZipCode != null) {
 			zipCodeStr = txtZipCode.getText().toString();
@@ -97,10 +115,10 @@ public class CheckoutActivity extends AppCompatActivity {
 		if(txtCouponCode != null) {
 			couponCode = txtCouponCode.getText().toString();
 			if(validCouponList.contains(couponCode)) {
-				if(couponCode == "SPECIALDISC05") {
+				if(couponCode.equals("SPECIALDISC05")) {
 					totalItemPrice *= 0.95;
 				}
-				else if(couponCode == "SPECIALDISC10") {
+				else if(couponCode.equals("SPECIALDISC10")) {
 					totalItemPrice *= 0.90;
 				}
 			}
@@ -112,15 +130,10 @@ public class CheckoutActivity extends AppCompatActivity {
 			vat = btnVat.isChecked();
 		}
 
-		finalPrice = shippingCharge;
+		finalPrice = totalItemPrice + shippingCharge;
 		if(vat) {
 			finalPrice *= 1.10;
 		}
-		txtFinalDisplay.setText(
-				"zipCode: " + zipCode +
-						"\tcouponCode: " + couponCode +
-						"\tvat: " + vat +
-						"\tFinal Price: $" + finalPrice
-		);
+		txtFinalDisplay.setText("\tFinal Price: $" + finalPrice);
 	}
 }
