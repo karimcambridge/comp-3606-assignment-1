@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -67,7 +68,6 @@ public class ItemsActivity extends AppCompatActivity {
 
 			items.add(map);
 		}
-
 		ArrayAdapter<Map> adapter = new ItemAdapter(this, items);
 		lv.setAdapter(adapter);
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -116,28 +116,32 @@ public class ItemsActivity extends AppCompatActivity {
 					ContentValues cv = new ContentValues();
 					cv.put(CartModel.CartEntry.ITEM, itemid);
 
-					final long cartId = db.insert(CartModel.CartEntry.TABLE_NAME, null, cv);
+					final long count = DatabaseUtils.queryNumEntries(db, CartModel.CartEntry.TABLE_NAME);
 
-					if(cartId != -1) {
-						if(cartId <= 5) {
+					if(count < 5) {
+						final long cartId = db.insert(CartModel.CartEntry.TABLE_NAME, null, cv);
+
+						if(cartId != -1) {
 							Snackbar.make(view, "Item successfully added to the cart", Snackbar.LENGTH_LONG)
-								.setAction("UNDO", new View.OnClickListener() {
-									@Override
-									public void onClick(View v) {
-										try {
-											db.delete(CartModel.CartEntry.TABLE_NAME, CartModel.CartEntry.ITEM + "=" + cartId, null);
-											Snackbar.make(v, "Removed item from Cart", Snackbar.LENGTH_LONG).show();
-										} catch(Exception e) {
-											e.printStackTrace();
-											Snackbar.make(v, "Unable to remove Item from Cart", Snackbar.LENGTH_LONG).show();
+									.setAction("UNDO", new View.OnClickListener() {
+										@Override
+										public void onClick(View v) {
+											try {
+												db.delete(CartModel.CartEntry.TABLE_NAME, CartModel.CartEntry.ITEM + "=" + cartId, null);
+												Snackbar.make(v, "Removed item from Cart", Snackbar.LENGTH_LONG).show();
+											} catch(Exception e) {
+												e.printStackTrace();
+												Snackbar.make(v, "Unable to remove Item from Cart", Snackbar.LENGTH_LONG).show();
+											}
 										}
-									}
-								}).show();
+									}).show();
+
 						} else {
-							Snackbar.make(view, "Your cart is full!", Snackbar.LENGTH_LONG).show();
+							Snackbar.make(view, "Unable to add Item to Cart", Snackbar.LENGTH_LONG).show();
 						}
+
 					} else {
-						Snackbar.make(view, "Unable to add Item to Cart", Snackbar.LENGTH_LONG).show();
+						Snackbar.make(view, "Your cart is full!", Snackbar.LENGTH_LONG).show();
 					}
 				}
 			});

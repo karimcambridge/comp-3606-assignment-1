@@ -76,10 +76,10 @@ public class CartActivity extends AppCompatActivity {
 		double totalItemPrice = 0.0;
 
 		Cursor itemCartRes = db.rawQuery(
-			"SELECT items.ID, items.NAME, items.PRICE FROM " + ItemModel.ItemEntry.TABLE_NAME + ", " + CartModel.CartEntry.TABLE_NAME + " WHERE cart.id = items.id", null);
+			"SELECT cart.item, items.id, items.name, items.price FROM " + ItemModel.ItemEntry.TABLE_NAME + ", " + CartModel.CartEntry.TABLE_NAME + " WHERE cart.item = items.id", null);
 
 		while (itemCartRes.moveToNext()) {
-			int itemId = itemCartRes.getInt(itemCartRes.getColumnIndex(ItemModel.ItemEntry.ID)) - 1;
+			int itemId = itemCartRes.getInt(itemCartRes.getColumnIndex(CartModel.CartEntry.ITEM));
 			String name = itemCartRes.getString(itemCartRes.getColumnIndex(ItemModel.ItemEntry.NAME));
 			double price = itemCartRes.getDouble(itemCartRes.getColumnIndex(ItemModel.ItemEntry.PRICE));
 			totalItemPrice += price;
