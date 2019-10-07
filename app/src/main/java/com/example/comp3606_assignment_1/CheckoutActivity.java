@@ -136,4 +136,8 @@ public class CheckoutActivity extends AppCompatActivity {
 		}
 		txtFinalDisplay.setText("\tFinal Price: $" + finalPrice);
 	}
+
+	public void onRandomImageButtonClicked(View v) {
+		Toast.makeText(getApplicationContext(),"Hello! Welcome to our app!", Toast.LENGTH_SHORT).show();
+	}
 }
