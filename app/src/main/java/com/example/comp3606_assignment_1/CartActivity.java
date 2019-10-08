@@ -40,6 +40,8 @@ public class CartActivity extends AppCompatActivity {
 
 	ArrayList<String> itemList = new ArrayList();
 
+	ArrayAdapter<String>adapter;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,7 +94,7 @@ public class CartActivity extends AppCompatActivity {
 		txtTotalPrice.setText("\tTotal Price: $" + totalItemPrice);
 
 		ListView lv = (ListView)findViewById(R.id.cart_list);
-		ArrayAdapter<String>adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemList);
+		adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemList);
 		lv.setAdapter(adapter);
 	}
 
@@ -103,5 +105,15 @@ public class CartActivity extends AppCompatActivity {
 			Intent i = new Intent(CartActivity.this, CheckoutActivity.class);
 			startActivity(i);
 		}
+	}
+
+	public void onClearCart(View view) {
+		db.execSQL("DELETE FROM " + CartModel.CartEntry.TABLE_NAME);
+		/*Intent intent = getIntent();
+		finish();
+		startActivity(intent);*/
+		itemList.clear();
+		itemList.add("Cart is empty.");
+		adapter.notifyDataSetChanged();
 	}
 }

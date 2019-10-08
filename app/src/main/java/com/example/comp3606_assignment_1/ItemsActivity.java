@@ -49,6 +49,7 @@ public class ItemsActivity extends AppCompatActivity {
 		Cursor i = db.query(ItemModel.ItemEntry.TABLE_NAME,
 			new String[]{ItemModel.ItemEntry.ID,
 			ItemModel.ItemEntry.NAME,
+			ItemModel.ItemEntry.DESC,
 			ItemModel.ItemEntry.PRICE,
 			ItemModel.ItemEntry.IMAGE},
 			null, null, null, null, null
@@ -56,15 +57,17 @@ public class ItemsActivity extends AppCompatActivity {
 
 		while(i.moveToNext()) {
 			int id = i.getInt(i.getColumnIndex(ItemModel.ItemEntry.ID));
-			double price = i.getDouble(i.getColumnIndex(ItemModel.ItemEntry.PRICE));
 			String name = i.getString(i.getColumnIndex(ItemModel.ItemEntry.NAME));
+			String desc = i.getString(i.getColumnIndex(ItemModel.ItemEntry.DESC));
+			double price = i.getDouble(i.getColumnIndex(ItemModel.ItemEntry.PRICE));
 			int imageId = i.getInt(i.getColumnIndex(ItemModel.ItemEntry.IMAGE));
 
 			Map map = new HashMap();
+			map.put("itemid", id);
 			map.put("name", name);
+			map.put("desc", desc);
 			map.put("price", price);
 			map.put("image", imageId);
-			map.put("itemid", id);
 
 			items.add(map);
 		}
@@ -88,12 +91,14 @@ public class ItemsActivity extends AppCompatActivity {
 		public View getView(int position, View v, ViewGroup p) {
 			v = LayoutInflater.from(getContext()).inflate(R.layout.content_item_details, null);
 			Map iMap = getItem(position);
-			int imageId = (Integer)iMap.get("image");
 			String name = (String)iMap.get("name");
+			String desc = (String)iMap.get("desc");
 			double price = (double)iMap.get("price");
-			((ImageView)v.findViewById(R.id.img_icon)).setImageResource(imageId);
+			int imageId = (Integer)iMap.get("image");
 			((TextView)v.findViewById(R.id.txt_name)).setText(name);
+			((TextView)v.findViewById(R.id.txt_description)).setText(desc);
 			((TextView)v.findViewById(R.id.txt_price)).setText("$" + new Double(price).toString());
+			((ImageView)v.findViewById(R.id.img_icon)).setImageResource(imageId);
 
 			Button cartButton = (Button)v.findViewById(R.id.btn_add_cart);
 			cartButton.setTag(position);
@@ -105,9 +110,6 @@ public class ItemsActivity extends AppCompatActivity {
 					Map iMap = getItem(position);
 					// Do what you want here...
 
-					int imageId = (Integer)iMap.get("image");
-					String name = (String)iMap.get("name");
-					double price = (double)iMap.get("price");
 					int itemid = (Integer)iMap.get("itemid");
 
 					SQLiteOpenHelper helper = new DBHelper(ItemsActivity.this);
